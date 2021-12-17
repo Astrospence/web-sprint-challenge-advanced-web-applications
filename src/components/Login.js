@@ -30,10 +30,7 @@ const Login = () => {
                 push("/view")
             })
             .catch(err => {
-                setValues({
-                    ...values,
-                    error: err.response.data.error
-                })
+                setValues({ ...values, error: err.response.data.error})
             })
     };
     
