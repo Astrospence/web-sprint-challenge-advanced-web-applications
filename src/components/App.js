@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from "react-router-dom";
+import PrivateRoute from './PrivateRoute';
 import styled from 'styled-components';
 
 import Header from './Header';
@@ -19,13 +20,13 @@ const App = () => {
           <Login/>
         </Route> 
 
-        <Route exact path="/view">
+        <PrivateRoute exact path="/view">
           <View/>
-        </Route>
+        </PrivateRoute>
 
-        <Route exact path="/logout">
+        <PrivateRoute exact path="/logout">
           <Logout/>
-        </Route>
+        </PrivateRoute>
 
       </RouteContainer>
     </AppContainer>

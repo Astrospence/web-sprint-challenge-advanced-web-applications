@@ -1,12 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 
 const Login = () => {
+    const { push } = useHistory();
+    const [values, setValues ] = useState({
+        username: "",
+        password: "",
+        error: ""
+    });
+
+    const handleChange = e => {
+        setValues({
+            ...values,
+            [e.target.name]: e.target.value
+        })
+    };
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        axios.post("http://localhost:5000/api/login", { username: values.username, password: values.password })
+            .then(res => {
+                const { token, role, username } = res.data
+                localStorage.setItem("token", token)
+                localStorage.setItem("role", role)
+                localStorage.setItem("username", username)
+                setValues({ username: "", password: "", error: "" })
+                push("/view")
+            })
+            .catch(err => {
+                setValues({
+                    ...values,
+                    error: err.response.data.error
+                })
+            })
+    };
     
     return(<ComponentContainer>
         <ModalContainer>
             <h1>Welcome to Blogger Pro</h1>
             <h2>Please enter your account information.</h2>
+            <form onSubmit={handleSubmit}>
+                <input 
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="username"
+                    value={values.username}
+                    onChange={handleChange}
+                />
+                <input 
+                    type="text"
+                    name="password"
+                    id="password"
+                    placeholder="password"
+                    value={values.password}
+                    onChange={handleChange}
+                />
+                <button id="submit">Submit</button>
+            </form>
+            <p id="error">{values.error}</p>
         </ModalContainer>
     </ComponentContainer>);
 }
