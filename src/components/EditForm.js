@@ -18,7 +18,7 @@ const EditForm = (props)=> {
         axiosWithAuth()
             .get(`/articles/${editId}`)
             .then(res => {
-                setArticle(res)
+                setArticle(res.data)
             })
             .catch(err => {
                 console.log(err)
@@ -61,7 +61,7 @@ const EditForm = (props)=> {
             <label>Body</label>
             <input value={article.body} id="body" name="body" onChange={handleChange}/>
         </div>
-        <Button id="editButton">Edit Article</Button>
+        <Button id="editButton" onClick={handleSubmit}>Edit Article</Button>
         <Button onClick={handleCancel}>Cancel</Button>
     </FormContainer>);
 }
